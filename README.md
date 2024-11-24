@@ -93,3 +93,29 @@ For detailed citations, see the project proposal.
 - https://www.tensorflow.org/datasets/catalog/gtzan  
 - https://huggingface.co/datasets/marsyas/gtzan
 
+---
+
+## Project Structure
+
+project_directory/
+    ├── music_genre_classifier.py     # First file (model architecture)
+    ├── music_genre_data_utils.py     # Second file (data loading and evaluation)
+    ├── main.py                       # Third file (main execution script)
+    ├── output/                       # Created automatically
+    └── data/
+        ├── audio/                    # Your GTZAN audio files
+        └── lyrics.json               # Your lyrics data
+
+
+## Update Config in main.py
+
+CONFIG = {
+    'audio_dir': 'data/audio',        # Update with your path
+    'lyrics_file': 'data/lyrics.json', # Update with your path
+    ...
+}
+
+
+## Run training
+
+python main.py
