@@ -98,6 +98,7 @@ For detailed citations, see the project proposal.
 ## Project Structure
 
 project_directory/
+
     ├── music_genre_classifier.py     # First file (model architecture)
     ├── music_genre_data_utils.py     # Second file (data loading and evaluation)
     ├── main.py                       # Third file (main execution script)
