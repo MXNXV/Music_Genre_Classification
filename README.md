@@ -97,21 +97,20 @@ For detailed citations, see the project proposal.
 
 ## Project Structure
 
-project_directory/
-    ├── music_genre_classifier.py     # First file (model architecture)
-    ├── music_genre_data_utils.py     # Second file (data loading and evaluation)
-    ├── main.py                       # Third file (main execution script)
-    ├── output/                       # Created automatically
-    └── data/
-        ├── audio/                    # Your GTZAN audio files
-        └── lyrics.json               # Your lyrics data
+project_directory/ ├── music_genre_classifier.py # Defines the model architecture ├── music_genre_data_utils.py # Handles data loading and evaluation utilities ├── main.py # Main script to execute training and evaluation ├── output/ # Directory for generated outputs (created automatically) └── data/ ├── audio/ # Directory containing GTZAN audio files └── lyrics.json # File containing lyrics data
 
 
-## Update Config in main.py
 
+---
+
+## Updating Configuration in `main.py`
+
+Ensure the configuration paths in `main.py` are correctly set:
+
+```python
 CONFIG = {
-    'audio_dir': 'data/audio',        # Update with your path
-    'lyrics_file': 'data/lyrics.json', # Update with your path
+    'audio_dir': 'data/audio',        # Path to audio data directory
+    'lyrics_file': 'data/lyrics.json', # Path to lyrics file
     ...
 }
 
