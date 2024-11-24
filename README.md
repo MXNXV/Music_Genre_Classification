@@ -1,4 +1,4 @@
-# Music_Genre_Classification
+
 # Music Genre Classification
 
 **Deep Learning for Automated Music Genre Classification Using Audio and Lyrical Features**  
