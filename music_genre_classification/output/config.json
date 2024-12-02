@@ -1,0 +1,10 @@
+{
+    "audio_dir": "data\\audio",
+    "lyrics_file": "data\\lyrics.json",
+    "batch_size": 32,
+    "num_epochs": 10,
+    "learning_rate": 0.001,
+    "fusion_type": "attention",
+    "num_genres": 5,
+    "output_dir": "output"
+}

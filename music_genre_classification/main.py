@@ -4,9 +4,8 @@ import json
 import logging
 from datetime import datetime
 
-# Import from our previous files
-from music_genre_classifier import MusicGenreClassifier  # From first file
-from music_genre_data_utils import prepare_data_loaders, EvaluationMetrics  # From second file
+from classifier import MusicGenreClassifier
+from data_utils import prepare_data_loaders, EvaluationMetrics
 
 def setup_logging():
     """Set up logging configuration"""
@@ -27,28 +26,28 @@ def main():
     
     # Configuration
     CONFIG = {
-        'audio_dir': 'path/to/your/gtzan/audio',  # Replace with your audio directory
-        'lyrics_file': 'path/to/your/lyrics.json', # Replace with your lyrics file
+        'audio_dir': r'data\audio',
+        'lyrics_file': r'data\lyrics.json',
         'batch_size': 32,
         'num_epochs': 10,
         'learning_rate': 0.001,
-        'fusion_type': 'attention',  # Options: 'attention', 'concatenate', 'gated'
-        'num_genres': 10,
-        'device': torch.device('cuda' if torch.cuda.is_available() else 'cpu'),
-        'output_dir': Path('output')
+        'fusion_type': 'attention',
+        'num_genres': 5,
+        'output_dir': 'output'
     }
     
     # Create output directory
-    CONFIG['output_dir'].mkdir(exist_ok=True)
+    Path(CONFIG['output_dir']).mkdir(exist_ok=True)
+    
+    # Device configuration
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
     # Save configuration
-    with open(CONFIG['output_dir'] / 'config.json', 'w') as f:
-        config_save = {k: str(v) if isinstance(v, Path) else v 
-                      for k, v in CONFIG.items()}
-        json.dump(config_save, f, indent=4)
+    with open(Path(CONFIG['output_dir']) / 'config.json', 'w') as f:
+        json.dump(CONFIG, f, indent=4)
     
     logger.info("Starting music genre classification training")
-    logger.info(f"Using device: {CONFIG['device']}")
+    logger.info(f"Using device: {device}")
     
     try:
         # 1. Prepare data loaders
@@ -65,7 +64,7 @@ def main():
         model = MusicGenreClassifier(
             num_genres=CONFIG['num_genres'],
             fusion_type=CONFIG['fusion_type']
-        ).to(CONFIG['device'])
+        ).to(device)
         
         # 3. Train model
         logger.info("Starting training...")
@@ -88,10 +87,10 @@ def main():
             
             for batch in train_loader:
                 # Move data to device
-                audio = batch['audio'].to(CONFIG['device'])
-                input_ids = batch['input_ids'].to(CONFIG['device'])
-                attention_mask = batch['attention_mask'].to(CONFIG['device'])
-                labels = batch['label'].to(CONFIG['device'])
+                audio = batch['audio'].to(device)
+                input_ids = batch['input_ids'].to(device)
+                attention_mask = batch['attention_mask'].to(device)
+                labels = batch['label'].to(device)
                 
                 # Forward pass
                 optimizer.zero_grad()
@@ -116,10 +115,10 @@ def main():
             
             with torch.no_grad():
                 for batch in val_loader:
-                    audio = batch['audio'].to(CONFIG['device'])
-                    input_ids = batch['input_ids'].to(CONFIG['device'])
-                    attention_mask = batch['attention_mask'].to(CONFIG['device'])
-                    labels = batch['label'].to(CONFIG['device'])
+                    audio = batch['audio'].to(device)
+                    input_ids = batch['input_ids'].to(device)
+                    attention_mask = batch['attention_mask'].to(device)
+                    labels = batch['label'].to(device)
                     
                     outputs = model(audio, input_ids, attention_mask)
                     loss = model.criterion(outputs, labels)
@@ -149,28 +148,27 @@ def main():
             if epoch_val_loss < best_val_loss:
                 best_val_loss = epoch_val_loss
                 torch.save(model.state_dict(), 
-                         CONFIG['output_dir'] / 'best_model.pth')
+                         Path(CONFIG['output_dir']) / 'best_model.pth')
                 logger.info("Saved new best model")
         
         # 4. Evaluate model
         logger.info("Starting evaluation...")
-        genre_labels = ['blues', 'classical', 'country', 'disco', 'hiphop',
-                       'jazz', 'metal', 'pop', 'reggae', 'rock']
+        genre_labels = ['blues', 'classical', 'country', 'disco', 'hiphop']
         
-        evaluator = EvaluationMetrics(model, test_loader, CONFIG['device'], genre_labels)
+        evaluator = EvaluationMetrics(model, test_loader, device, genre_labels)
         
         # Compute and save metrics
         conf_matrix, class_report = evaluator.compute_metrics()
         evaluator.plot_confusion_matrix(
-            save_path=CONFIG['output_dir'] / 'confusion_matrix.png')
+            save_path=Path(CONFIG['output_dir']) / 'confusion_matrix.png')
         evaluator.plot_performance_by_genre(
-            save_path=CONFIG['output_dir'] / 'genre_performance.png')
+            save_path=Path(CONFIG['output_dir']) / 'genre_performance.png')
         evaluator.plot_training_history(
             training_history, 
-            save_path=CONFIG['output_dir'] / 'training_history.png')
+            save_path=Path(CONFIG['output_dir']) / 'training_history.png')
         
         # Save classification report
-        with open(CONFIG['output_dir'] / 'classification_report.json', 'w') as f:
+        with open(Path(CONFIG['output_dir']) / 'classification_report.json', 'w') as f:
             json.dump(class_report, f, indent=4)
         
         logger.info("Training and evaluation completed successfully")

@@ -1,0 +1,252 @@
+[
+    {
+        "track_id": "blues_1",
+        "lyrics": "Sample lyrics for blues song 1...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_2",
+        "lyrics": "Sample lyrics for blues song 2...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_3",
+        "lyrics": "Sample lyrics for blues song 3...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_4",
+        "lyrics": "Sample lyrics for blues song 4...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_5",
+        "lyrics": "Sample lyrics for blues song 5...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_6",
+        "lyrics": "Sample lyrics for blues song 6...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_7",
+        "lyrics": "Sample lyrics for blues song 7...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_8",
+        "lyrics": "Sample lyrics for blues song 8...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_9",
+        "lyrics": "Sample lyrics for blues song 9...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "blues_10",
+        "lyrics": "Sample lyrics for blues song 10...",
+        "genre": "blues"
+    },
+    {
+        "track_id": "classical_1",
+        "lyrics": "Sample lyrics for classical song 1...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_2",
+        "lyrics": "Sample lyrics for classical song 2...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_3",
+        "lyrics": "Sample lyrics for classical song 3...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_4",
+        "lyrics": "Sample lyrics for classical song 4...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_5",
+        "lyrics": "Sample lyrics for classical song 5...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_6",
+        "lyrics": "Sample lyrics for classical song 6...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_7",
+        "lyrics": "Sample lyrics for classical song 7...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_8",
+        "lyrics": "Sample lyrics for classical song 8...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_9",
+        "lyrics": "Sample lyrics for classical song 9...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "classical_10",
+        "lyrics": "Sample lyrics for classical song 10...",
+        "genre": "classical"
+    },
+    {
+        "track_id": "country_1",
+        "lyrics": "Sample lyrics for country song 1...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_2",
+        "lyrics": "Sample lyrics for country song 2...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_3",
+        "lyrics": "Sample lyrics for country song 3...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_4",
+        "lyrics": "Sample lyrics for country song 4...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_5",
+        "lyrics": "Sample lyrics for country song 5...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_6",
+        "lyrics": "Sample lyrics for country song 6...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_7",
+        "lyrics": "Sample lyrics for country song 7...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_8",
+        "lyrics": "Sample lyrics for country song 8...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_9",
+        "lyrics": "Sample lyrics for country song 9...",
+        "genre": "country"
+    },
+    {
+        "track_id": "country_10",
+        "lyrics": "Sample lyrics for country song 10...",
+        "genre": "country"
+    },
+    {
+        "track_id": "disco_1",
+        "lyrics": "Sample lyrics for disco song 1...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_2",
+        "lyrics": "Sample lyrics for disco song 2...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_3",
+        "lyrics": "Sample lyrics for disco song 3...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_4",
+        "lyrics": "Sample lyrics for disco song 4...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_5",
+        "lyrics": "Sample lyrics for disco song 5...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_6",
+        "lyrics": "Sample lyrics for disco song 6...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_7",
+        "lyrics": "Sample lyrics for disco song 7...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_8",
+        "lyrics": "Sample lyrics for disco song 8...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_9",
+        "lyrics": "Sample lyrics for disco song 9...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "disco_10",
+        "lyrics": "Sample lyrics for disco song 10...",
+        "genre": "disco"
+    },
+    {
+        "track_id": "hiphop_1",
+        "lyrics": "Sample lyrics for hiphop song 1...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_2",
+        "lyrics": "Sample lyrics for hiphop song 2...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_3",
+        "lyrics": "Sample lyrics for hiphop song 3...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_4",
+        "lyrics": "Sample lyrics for hiphop song 4...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_5",
+        "lyrics": "Sample lyrics for hiphop song 5...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_6",
+        "lyrics": "Sample lyrics for hiphop song 6...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_7",
+        "lyrics": "Sample lyrics for hiphop song 7...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_8",
+        "lyrics": "Sample lyrics for hiphop song 8...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_9",
+        "lyrics": "Sample lyrics for hiphop song 9...",
+        "genre": "hiphop"
+    },
+    {
+        "track_id": "hiphop_10",
+        "lyrics": "Sample lyrics for hiphop song 10...",
+        "genre": "hiphop"
+    }
+]
