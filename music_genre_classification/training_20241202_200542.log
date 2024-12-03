@@ -1,0 +1,8 @@
+2024-12-02 20:05:42,720 - INFO - Using device: cpu
+2024-12-02 20:05:42,720 - INFO - Analyzing dataset...
+2024-12-02 20:05:42,720 - ERROR - An error occurred: name 'analyze_data_split' is not defined
+Traceback (most recent call last):
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\main.py", line 53, in main
+    genre_dist = analyze_data_split()
+                 ^^^^^^^^^^^^^^^^^^
+NameError: name 'analyze_data_split' is not defined

@@ -1,0 +1,10 @@
+2024-12-02 19:57:54,424 - INFO - Using device: cpu
+2024-12-02 19:57:54,425 - INFO - Loading data...
+2024-12-02 19:57:54,613 - INFO - Data loaded successfully
+2024-12-02 19:57:54,613 - INFO - Initializing model...
+2024-12-02 19:58:00,067 - ERROR - An error occurred: 'NoneType' object has no attribute 'to'
+Traceback (most recent call last):
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\main.py", line 69, in main
+    model.criterion = model.criterion.to(device)
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'to'

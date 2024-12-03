@@ -1,0 +1,29 @@
+2024-12-02 19:29:26,616 - INFO - Using device: cpu
+2024-12-02 19:29:26,617 - INFO - Loading data...
+2024-12-02 19:29:26,963 - INFO - Data loaded successfully
+2024-12-02 19:29:26,963 - INFO - Initializing model...
+2024-12-02 19:29:33,295 - INFO - Starting training...
+2024-12-02 19:29:35,412 - ERROR - An error occurred: shape '[-1, 65536]' is invalid for input of size 5292032
+Traceback (most recent call last):
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\main.py", line 126, in main
+    outputs = model(audio, input_ids, attention_mask)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Manav\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\nn\modules\module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Manav\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\nn\modules\module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\classifier.py", line 81, in forward
+    audio_features = self.audio_cnn(audio_input)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Manav\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\nn\modules\module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Manav\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\nn\modules\module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\classifier.py", line 31, in forward
+    x = x.view(-1, 64 * 32 * 32)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: shape '[-1, 65536]' is invalid for input of size 5292032

@@ -1,13 +1,12 @@
 import os
-import requests
-import pandas as pd
+import numpy as np
 import json
+import torch
+import torchaudio
 from pathlib import Path
-from tqdm import tqdm
-import librosa
-import soundfile as sf
-from concurrent.futures import ThreadPoolExecutor
 import logging
+from tqdm import tqdm
+from datasets import load_dataset
 
 def setup_logging():
     logging.basicConfig(
@@ -16,112 +15,8 @@ def setup_logging():
     )
     return logging.getLogger(__name__)
 
-def download_gtzan_sample():
-    """
-    Downloads a small sample of GTZAN dataset from reliable mirrors
-    """
-    logger = setup_logging()
-    
-    # Create directories
-    base_dir = Path('data')
-    audio_dir = base_dir / 'audio'
-    audio_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Sample tracks from each genre (using reliable hosting)
-    sample_tracks = {
-        'blues': ['https://example.com/blues1.wav', 'https://example.com/blues2.wav'],
-        'classical': ['https://example.com/classical1.wav', 'https://example.com/classical2.wav'],
-        # Add more genre samples
-    }
-    
-    def download_file(url, filepath):
-        try:
-            response = requests.get(url, stream=True)
-            response.raise_for_status()
-            with open(filepath, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            return True
-        except Exception as e:
-            logger.error(f"Error downloading {url}: {str(e)}")
-            return False
-
-    logger.info("Starting sample audio downloads...")
-    for genre, urls in sample_tracks.items():
-        genre_dir = audio_dir / genre
-        genre_dir.mkdir(exist_ok=True)
-        
-        with ThreadPoolExecutor(max_workers=4) as executor:
-            futures = []
-            for i, url in enumerate(urls):
-                filepath = genre_dir / f"track{i+1}.wav"
-                futures.append(executor.submit(download_file, url, filepath))
-
-def create_sample_lyrics():
-    """
-    Creates a sample lyrics dataset matching the audio files
-    """
-    logger = setup_logging()
-    
-    # Sample lyrics data
-    sample_lyrics = {
-        'blues1': {
-            'track_id': 'blues1',
-            'lyrics': "Sample blues lyrics...",
-            'genre': 'blues'
-        },
-        'classical1': {
-            'track_id': 'classical1',
-            'lyrics': "Sample classical lyrics...",
-            'genre': 'classical'
-        },
-        # Add more samples
-    }
-    
-    # Save to JSON
-    lyrics_file = Path('data') / 'lyrics.json'
-    with open(lyrics_file, 'w') as f:
-        json.dump(list(sample_lyrics.values()), f, indent=4)
-    
-    logger.info(f"Created sample lyrics file at {lyrics_file}")
-
-def download_from_huggingface():
-    """
-    Alternative method to download GTZAN from Hugging Face
-    """
-    logger = setup_logging()
-    
-    try:
-        from datasets import load_dataset
-        
-        logger.info("Downloading GTZAN dataset from Hugging Face...")
-        dataset = load_dataset("marsyas/gtzan", split="train")
-        
-        # Create directories
-        audio_dir = Path('data/audio')
-        audio_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Download and save audio files
-        for item in tqdm(dataset, desc="Downloading audio files"):
-            genre = item['genre']
-            genre_dir = audio_dir / genre
-            genre_dir.mkdir(exist_ok=True)
-            
-            # Save audio file
-            audio_path = genre_dir / f"{item['track_id']}.wav"
-            if not audio_path.exists():
-                sf.write(audio_path, item['audio']['array'], item['audio']['sampling_rate'])
-        
-        logger.info("Download completed successfully")
-        
-    except Exception as e:
-        logger.error(f"Error downloading from Hugging Face: {str(e)}")
-        logger.info("Please try manual download from: https://huggingface.co/datasets/marsyas/gtzan")
-
 def create_dummy_dataset(num_samples=10):
-    """
-    Creates a dummy dataset for testing
-    """
+    """Creates a dummy dataset for testing"""
     logger = setup_logging()
     
     # Create directories
@@ -135,19 +30,31 @@ def create_dummy_dataset(num_samples=10):
     dummy_data = []
     
     for genre in genres:
+        # Create genre directory
         genre_dir = audio_dir / genre
-        genre_dir.mkdir(exist_ok=True)
+        genre_dir.mkdir(exist_ok=True, parents=True)
         
         for i in range(num_samples):
             # Generate dummy audio (white noise)
             sr = 22050
-            duration = 30  # seconds
-            audio = np.random.randn(sr * duration)
+            duration = 3  # seconds (reduced for testing)
+            num_samples_audio = sr * duration
             
-            # Save audio file
+            # Create random noise as a tensor
+            audio = torch.randn(1, num_samples_audio)
+            
+            # Create proper track id and path
             track_id = f"{genre}_{i+1}"
             audio_path = genre_dir / f"{track_id}.wav"
-            sf.write(audio_path, audio, sr)
+            
+            # Save using torchaudio
+            torchaudio.save(
+                str(audio_path),
+                audio,
+                sr,
+                encoding='PCM_S',
+                bits_per_sample=16
+            )
             
             # Create dummy lyrics
             dummy_data.append({
@@ -157,33 +64,117 @@ def create_dummy_dataset(num_samples=10):
             })
     
     # Save dummy lyrics
-    with open(base_dir / 'lyrics.json', 'w') as f:
+    lyrics_file = base_dir / 'lyrics.json'
+    with open(lyrics_file, 'w') as f:
         json.dump(dummy_data, f, indent=4)
     
     logger.info(f"Created dummy dataset with {len(dummy_data)} samples")
     return dummy_data
 
+def download_gtzan_subset():
+    """Downloads a small subset of the GTZAN dataset"""
+    logger = setup_logging()
+    
+    try:
+        logger.info("Downloading GTZAN dataset...")
+        dataset = load_dataset("marsyas/gtzan", split="train[:1000]", trust_remote_code=True)
+        
+        # Create directories with r-strings
+        base_dir = Path(r'data')
+        audio_dir = Path(r'data\audio')
+        audio_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Store metadata for lyrics.json
+        metadata = []
+        
+        # Process dataset
+        for idx, item in enumerate(tqdm(dataset, desc="Processing audio files")):
+            try:
+                genre = item['genre']
+                
+                # Create genre directory with r-string
+                genre_dir = Path(rf'data\audio\{genre}')
+                genre_dir.mkdir(exist_ok=True, parents=True)
+                
+                # Get audio data
+                audio_array = np.array(item['audio']['array'])
+                sr = item['audio']['sampling_rate']
+                
+                # Convert to torch tensor
+                audio_tensor = torch.from_numpy(audio_array).float().unsqueeze(0)
+                
+                # Create file name with r-string
+                track_id = f"{genre}_{idx+1}"
+                audio_path = genre_dir / f"{track_id}.wav"
+                
+                # Save audio file
+                torchaudio.save(
+                    str(audio_path),
+                    audio_tensor,
+                    sr,
+                    encoding='PCM_S',
+                    bits_per_sample=16
+                )
+                
+                # Add metadata
+                metadata.append({
+                    'track_id': track_id,
+                    'lyrics': f"Instrumental music - {genre} genre",
+                    'genre': genre
+                })
+                
+            except Exception as e:
+                logger.error(f"Error processing {genre} file {idx+1}: {str(e)}")
+                continue
+        
+        # Save lyrics data with r-string
+        lyrics_path = Path(r'data\lyrics.json')
+        with open(lyrics_path, 'w') as f:
+            json.dump(metadata, f, indent=4)
+        
+        # Print final statistics
+        files = list(Path(r'data\audio').rglob('*.wav'))
+        logger.info(f"Dataset creation complete. Total files: {len(files)}")
+        
+        # Print genre distribution
+        genre_counts = {}
+        for file in files:
+            genre = file.parent.name
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+        
+        logger.info("Files per genre:")
+        for genre, count in genre_counts.items():
+            logger.info(f"{genre}: {count} files")
+            
+    except Exception as e:
+        logger.error(f"Error downloading GTZAN dataset: {str(e)}")
+        logger.info("Please ensure you have the 'datasets' package installed: pip install datasets")
+        
+        
 if __name__ == "__main__":
     logger = setup_logging()
     
     print("\nMusic Genre Classification Dataset Setup")
     print("----------------------------------------")
     print("1. Download sample GTZAN dataset")
-    print("2. Download full GTZAN dataset from Hugging Face")
+    print("2. Download small subset of GTZAN dataset")
     print("3. Create dummy dataset for testing")
     print("4. Exit")
     
-    choice = input("\nEnter your choice (1-4): ")
-    
-    if choice == '1':
-        download_gtzan_sample()
-        create_sample_lyrics()
-    elif choice == '2':
-        download_from_huggingface()
-    elif choice == '3':
-        num_samples = int(input("Enter number of samples per genre (default 10): ") or 10)
-        create_dummy_dataset(num_samples)
-    elif choice == '4':
-        print("Exiting...")
-    else:
-        print("Invalid choice!")
+    try:
+        choice = input("\nEnter your choice (1-4): ")
+        
+        if choice == '1':
+            logger.error("Sample GTZAN dataset download not implemented")
+        elif choice == '2':
+            logger.info("Starting GTZAN subset download...")
+            download_gtzan_subset()
+        elif choice == '3':
+            num_samples = int(input("Enter number of samples per genre (default 10): ") or 10)
+            create_dummy_dataset(num_samples)
+        elif choice == '4':
+            print("Exiting...")
+        else:
+            print("Invalid choice!")
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}", exc_info=True)

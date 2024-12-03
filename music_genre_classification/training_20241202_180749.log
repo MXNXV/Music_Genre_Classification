@@ -1,0 +1,21 @@
+2024-12-02 18:07:49,482 - INFO - Starting training with reduced complexity...
+2024-12-02 18:07:49,482 - INFO - Using device: cpu
+2024-12-02 18:07:49,482 - INFO - Loading data...
+2024-12-02 18:07:50,033 - INFO - Data loaded successfully
+2024-12-02 18:07:50,033 - INFO - Initializing model...
+2024-12-02 18:08:06,492 - INFO - Starting training...
+2024-12-02 18:09:56,556 - INFO - Starting evaluation...
+2024-12-02 18:10:12,607 - ERROR - An error occurred: Number of classes, 3, does not match size of target_names, 5. Try specifying the labels parameter
+Traceback (most recent call last):
+  File "E:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\main.py", line 198, in main
+    conf_matrix, class_report = evaluator.compute_metrics()
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\data_utils.py", line 166, in compute_metrics
+    self.class_report = classification_report(
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Manav\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\_param_validation.py", line 213, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Manav\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\metrics\_classification.py", line 2648, in classification_report
+    raise ValueError(
+ValueError: Number of classes, 3, does not match size of target_names, 5. Try specifying the labels parameter

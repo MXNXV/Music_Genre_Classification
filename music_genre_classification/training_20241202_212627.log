@@ -1,0 +1,7 @@
+2024-12-02 21:26:27,161 - INFO - Analyzing dataset...
+2024-12-02 21:26:27,162 - ERROR - An error occurred: analyze_data_split() missing 2 required positional arguments: 'lyrics_file' and 'audio_dir'
+Traceback (most recent call last):
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\main.py", line 49, in main
+    genre_dist = analyze_data_split()
+                 ^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze_data_split() missing 2 required positional arguments: 'lyrics_file' and 'audio_dir'

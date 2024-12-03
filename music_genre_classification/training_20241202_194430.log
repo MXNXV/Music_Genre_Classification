@@ -1,0 +1,16 @@
+2024-12-02 19:44:30,270 - INFO - Using device: cpu
+2024-12-02 19:44:30,271 - INFO - Loading data...
+2024-12-02 19:44:30,455 - INFO - Data loaded successfully
+2024-12-02 19:44:30,455 - INFO - Initializing model...
+2024-12-02 19:44:30,463 - ERROR - An error occurred: name 'model' is not defined
+Traceback (most recent call last):
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\main.py", line 83, in main
+    model = LightMusicGenreClassifier(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\classifier.py", line 68, in __init__
+    self.audio_cnn = LightAudioCNN(num_features=64)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\IUB\SEM_III\DLS\Final_Project\music_genre_classification\classifier.py", line 29, in __init__
+    optimizer = torch.optim.Adam(model.parameters(), lr=CONFIG['learning_rate'], weight_decay=0.01)
+                                 ^^^^^
+NameError: name 'model' is not defined
